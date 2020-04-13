@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>List of Clusters You Can View</title>
+    </head>
+    <body>
+        <ul>
+            {% for cluster in clusters %}
+            <li><a href="{{ url_for('clusters', name=cluster.name) }}">{{ cluster.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
+

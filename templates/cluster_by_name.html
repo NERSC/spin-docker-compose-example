@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>{{ name }}</title>
+    </head>
+    <body>
+        <div>
+            <h1>{{ name }}</h1>
+            <img src="{{ url_for('static', filename=filename) }}" height="500">
+        </div>
+        <div>
+            <a href="{{ url_for('clusters') }}">index</a>
+        </div>
+    </body>
+</html>
+
