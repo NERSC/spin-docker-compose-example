@@ -6,7 +6,7 @@ import mysql.connector
 config = {
     "database": {
         "user": "root",
-        "password": os.environ.get("MYSQL_ROOT_PASSWORD"),
+        "password": os.environ.get("MYSQL_PASSWORD"),
         "host": "db",
         "database": "science",
     },
