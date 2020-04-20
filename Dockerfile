@@ -14,3 +14,8 @@ ADD app.py /srv/app.py
 ADD templates /srv/templates
 ENV FLASK_APP=/srv/app.py
 CMD ["flask", "run", "--host=0.0.0.0"]
+
+ADD docker-entrypoint.sh /srv/docker-entrypoint.sh
+RUN chmod +x /srv/docker-entrypoint.sh
+ENTRYPOINT ["/srv/docker-entrypoint.sh"]
+
