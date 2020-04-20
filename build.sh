@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t harbor.nersc.gov/das/hello-flask:latest .
+docker build -t harbor.nersc.gov/das/app.spin-demo:latest .
