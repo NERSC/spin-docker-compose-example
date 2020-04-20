@@ -7,7 +7,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
   app:
-    image: harbor.nersc.gov/das/hello-flask:latest
+    image: harbor.nersc.gov/das/app.spin-demo:latest
     restart: always
     ports:
       - 5000:5000
