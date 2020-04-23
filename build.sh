@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t harbor.nersc.gov/das/app.spin-demo:latest .
+docker build -t registry.nersc.gov/spinup/galaxies:latest .

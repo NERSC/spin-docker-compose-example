@@ -3,6 +3,7 @@
         <title>List of Clusters You Can View</title>
     </head>
     <body>
+        <h1>{{ banner_message }}</h1>
         <ul>
             {% for cluster in clusters %}
             <li><a href="{{ url_for('clusters', name=cluster.name) }}">{{ cluster.name }}</a></li>

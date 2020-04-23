@@ -5,7 +5,7 @@ import mysql.connector
 
 config = {
     "database": {
-        "user": "root",
+        "user": "user",
         "password": os.environ.get("MYSQL_PASSWORD"),
         "host": "db",
         "database": "science",
@@ -16,15 +16,26 @@ app = Flask(__name__)
 
 @app.before_first_request
 def before_first_request():
+    connection = create_connection(**config["database"])
     try:
-        connection = create_connection(**config["database"])
-    except mysql.connector.errors.ProgrammingError as err:
-        if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
-            create_database(**config["database"])
-        else:
-            raise
+        cursor = connection.cursor()
+        cursor.execute("create table data (name varchar(20) not null, filename varchar(24) not null)")
+        cursor.execute("insert into data (name, filename) values ('RMJ133520.1+410004.1', 'rmj133520.1+410004.1.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ094951.8+170710.6', 'rmj094951.8+170710.6.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ111514.8+531954.6', 'rmj111514.8+531954.6.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ222842.7+083924.4', 'rmj222842.7+083924.4.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ090912.2+105824.9', 'rmj090912.2+105824.9.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ015949.3-084958.9', 'rmj015949.3-084958.9.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ110608.5+333339.7', 'rmj110608.5+333339.7.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ221145.9-034944.5', 'rmj221145.9-034944.5.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ012542.3-063442.3', 'rmj012542.3-063442.3.png')")
+        cursor.execute("insert into data (name, filename) values ('RMJ121218.5+273255.1', 'rmj121218.5+273255.1.png')")
+        connection.commit()
+    except:
+        pass
     else:
-        connection.close()
+        cursor.close()
+    connection.close()
 
 @app.before_request
 def before_request():
@@ -54,7 +65,9 @@ def clusters(name=None):
         else:
             return render_template("cluster_by_name.html", **result)
     else:
-        return render_template("cluster_list.html", clusters=results)
+        banner_message = os.environ.get("BANNER_MESSAGE", "Generic Banner Message")
+        return render_template("cluster_list.html",
+                banner_message=banner_message, clusters=results)
 
 def create_connection(host=None, user=None, password=None, database=None):
     return mysql.connector.connect(
@@ -62,23 +75,3 @@ def create_connection(host=None, user=None, password=None, database=None):
             user=user,
             password=password,
             database=database)
-
-def create_database(host=None, user=None, password=None, database=None):
-    connection = create_connection(host, user, password)
-    cursor = connection.cursor()
-    cursor.execute("create database science")
-    cursor.execute("use science")
-    cursor.execute("create table data (name varchar(20) not null, filename varchar(24) not null)")
-    cursor.execute("insert into data (name, filename) values ('RMJ133520.1+410004.1', 'rmj133520.1+410004.1.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ094951.8+170710.6', 'rmj094951.8+170710.6.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ111514.8+531954.6', 'rmj111514.8+531954.6.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ222842.7+083924.4', 'rmj222842.7+083924.4.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ090912.2+105824.9', 'rmj090912.2+105824.9.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ015949.3-084958.9', 'rmj015949.3-084958.9.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ110608.5+333339.7', 'rmj110608.5+333339.7.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ221145.9-034944.5', 'rmj221145.9-034944.5.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ012542.3-063442.3', 'rmj012542.3-063442.3.png')")
-    cursor.execute("insert into data (name, filename) values ('RMJ121218.5+273255.1', 'rmj121218.5+273255.1.png')")
-    connection.commit()
-    cursor.close()
-    connection.close()
